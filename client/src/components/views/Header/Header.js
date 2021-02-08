@@ -8,26 +8,28 @@ import '../../../scss/Header.scss';
 const Header = (props) => {
     const [login, setLogin] = useState(false);
 
-    useEffect((login) => {
-        // axios.get('/api/users/auth')
-        // .then(response => {
-        //     if(response.data.isAuth) {
-        //         setLogin(!login);
-        //     }
-        // })
-        if(localStorage.getItem('userID')) {
+    useEffect(() => {
+        if (localStorage.getItem('userID')) {
             setLogin(!login);
+        } else {
+            axios.get('/api/users/logout')
+                .then(response => {
+                    if (response.data.success) {
+                        setLogin(false);
+                    }
+                })
         }
     }, []);
 
     const onClickHandler = () => {
+        localStorage.removeItem('userID');
+
         axios.get('/api/users/logout')
         .then(response => {
             console.log(response);
 
             if (response.data.success) {
                 setLogin(!login);
-                localStorage.removeItem('userID');
                 props.history.push('/');
             } else {
                 alert("로그아웃하는데 실패하였습니다.");

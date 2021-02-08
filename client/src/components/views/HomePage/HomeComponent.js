@@ -10,20 +10,6 @@ const HomeComponent = (props) => {
         .then(response => console.log(response.data));
     }, []);
 
-    // const onClickHandler = () => {
-    //     axios.get('/api/users/logout')
-    //     .then(response => {
-
-    //         console.log(response);
-
-    //         if (response.data.success) {
-    //             props.history.push('/login');
-    //         } else {
-    //             alert("로그아웃하는데 실패하였습니다.");
-    //         }
-    //     })
-    // }
-
     return (
         <>
             <div style={{
