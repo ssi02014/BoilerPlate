@@ -5,7 +5,7 @@ import HomeComponent from '../components/views/HomePage/HomeComponent';
 const HomePage = () => {
     return (
         <div>
-            <Header></Header>
+            <Header />
             <HomeComponent></HomeComponent>
         </div>
     );
