@@ -1,42 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { Link, withRouter } from 'react-router-dom';
 import '../../../scss/Header.scss';
-import {auth} from '../../../actions/user_action';
-import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-
-    
 const Header = (props) => {
-    const dispatch = useDispatch();
     const [login, setLogin] = useState(false);
+    const user = useSelector(state => state.user);
 
-    useEffect(() => {
-        dispatch(auth())
-            .then(response => {
-                //로그인 하지 않은 상태
-                if (!response.payload.isAuth) {
-                    if (localStorage.getItem('userID')) {
-                        localStorage.removeItem('userID');
-                        setLogin(false);
-                    }
-                } else {
-                    //로그인 한 상태
-                    if (!localStorage.getItem('userID')) {
-                        axios.get('/api/users/logout')
-                        .then(response => {
-                            if (response.data.sccess) {
-                                setLogin(false);
-                            }
-                        })
-                    }
-                }
-            })
-
-        if (localStorage.getItem('userID')) {
-            setLogin(!login);
-        }
-    }, []);
 
     const onClickHandler = () => {
         localStorage.removeItem('userID');
@@ -47,7 +18,7 @@ const Header = (props) => {
 
             if (response.data.success) {
                 setLogin(!login);
-                props.history.push('/');
+                props.history.push('/login');
             } else {
                 alert("로그아웃하는데 실패하였습니다.");
             }
@@ -58,12 +29,13 @@ const Header = (props) => {
         <header>
             <h1 className="header-title"><Link to="/">MINJAE</Link></h1>
             <ul className="header-menu">
-                {login ? 
+                {user.userData && user.userData.isAuth ? 
                 <li><Link to="/" onClick={onClickHandler}>Logout</Link></li>
-                : <li><Link to="/login">Login</Link></li>}
-                {login ? 
-                    '' : <li><Link to="/register">Signup</Link></li>
-                }
+                : 
+                <>
+                    <li><Link to="/login">Login</Link></li>
+                    <li><Link to="/register">Signup</Link></li>
+                </>}
             </ul>
         </header>
     );

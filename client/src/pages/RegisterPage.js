@@ -5,7 +5,6 @@ import RegisterComponent from '../components/views/RegisterPage/RegisterComponen
 const RegisterPage = () => {
     return (
         <div>
-            <Header />
             <RegisterComponent></RegisterComponent>
         </div>
     );

@@ -3,7 +3,7 @@ import {useDispatch} from 'react-redux';
 import { auth } from '../actions/user_action';
 import { withRouter } from 'react-router-dom';
 
-export default function(SpecificComponent, option, adminRoute = null) {
+export default function Auth(SpecificComponent, option, adminRoute = null) {
     
     //option
     //null => 아무나 출입 가능한 페이지
@@ -21,17 +21,12 @@ export default function(SpecificComponent, option, adminRoute = null) {
 
                 //로그인 하지 않은 상태
                 if (!response.payload.isAuth) {
-                    if(option) {
-                        props.history.push('/login');
-                    }
+                    if (option) props.history.push('/login');
                 } else {
                     //로그인한 상태
-                    if (adminRoute && !response.payload.isAdmin) {
-                        props.history.push('/');
-                    } else {
-                        if(option === false) {
-                            props.history.push('/');
-                        }
+                    if (adminRoute && !response.payload.isAdmin) props.history.push('/');
+                    else {
+                        if (option === false) props.history.push('/');
                     }
                 }
             })
